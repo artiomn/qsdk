@@ -2,8 +2,6 @@
 Local optimizer backend implementation.
 """
 
-from optimizer import Optimizer
-
 from ..backend import Backend, Solver
 from .solvers import QuboSolver
 
@@ -12,27 +10,31 @@ __all__ = ['LocalBackend']
 
 
 class LocalBackend(Backend):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, backend_address, *args, **kwargs):
         super(LocalBackend, self).__init__()
+        self._backend_address = backend_address
         self._solvers = {
             solver_class.name(): solver_class for solver_class in [QuboSolver]
         }
-
-        self._optimizer = Optimizer(*args, **kwargs)
+        self._client = Client(endpoint=backend_address, *args, **kwargs)
 
     def connect(self):
         """
-        Connect to the backend. Stub.
+        Connect to the backend.
         :return: session.
         """
-        pass
+        self._client.session = self._client.create_session()
+        return self._client.session
 
     def disconnect(self):
         """
-        Disconnect from the backend. Stub.
+        Disconnect from the backend.
         :return: None.
         """
-        pass
+
+        if self._client.session is not None:
+            self._client.close()
+            self._client.session = None
 
     def get_solver(self, name: str) -> Solver:
         """
@@ -52,7 +54,7 @@ class LocalBackend(Backend):
         :return: connection state.
         """
 
-        return True
+        return self._client.session is not None
 
     @staticmethod
     def name() -> str:
@@ -63,3 +65,13 @@ class LocalBackend(Backend):
         """
 
         return 'local_optimizer'
+
+    @property
+    def dwave_client(self) -> Client:
+        """
+        Return Cloud client.
+        :return: Client object.
+        """
+
+        return self._client
+
