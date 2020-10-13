@@ -1,41 +1,51 @@
 """
 D-Wave backend implementation.
 """
-from typing import Iterable
 
-from ..backend import Backend
+from dvawe.cloud import Client
+from ..backend import Backend, Solver
+from .solvers import QuboSolver
 
 
 __all__ = ['DWaveBackend']
 
 
 class DWaveBackend(Backend):
-    def __init__(self, backend_address):
+    def __init__(self, backend_address, *args, **kwargs):
         super(DWaveBackend, self).__init__()
+        self._backend_address = backend_address
+        self._solvers = {
+            solver_class.name(): solver_class for solver_class in [QuboSolver]
+        }
+        self._client = Client(endpoint=backend_address, *args, **kwargs)
 
     def connect(self):
         """
         Connect to the backend.
-        :return: None.
+        :return: session.
         """
-        raise NotImplemented()
+        self._client.session = self._client.create_session()
+        return self._client.session
 
     def disconnect(self):
         """
         Disconnect from the backend.
         :return: None.
         """
-        raise NotImplemented()
 
-    def solve_qubo(self, q_matrix) -> Iterable[int]:
+        if self._client.session is not None:
+            self._client.close()
+            self._client.session = None
+
+    def get_solver(self, name: str) -> Solver:
         """
-        Solve QUBO problem.
+        Return solver by name.
 
-        :param q_matrix: QUBO Q matrix as a numpy array.
-        :return: result vector.
+        :param name: solver name.
+        :return: solver object.
         """
 
-        raise NotImplemented()
+        return self._solvers[name](self)
 
     @property
     def connected(self) -> bool:
@@ -45,4 +55,24 @@ class DWaveBackend(Backend):
         :return: connection state.
         """
 
-        raise NotImplemented()
+        return self._client.session is not None
+
+    @staticmethod
+    def name() -> str:
+        """
+        Backend name.
+
+        :return: backend name string.
+        """
+
+        return 'dwave'
+
+    @property
+    def dwave_client(self) -> Client:
+        """
+        Return Cloud client.
+        :return: Client object.
+        """
+
+        return self._client
+

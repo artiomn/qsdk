@@ -6,6 +6,35 @@ from abc import ABC, abstractmethod
 from typing import Iterable
 
 
+class Solver(ABC):
+    """
+    Solver base class.
+    """
+
+    @abstractmethod
+    def solve(self, *args, **kwargs) -> Iterable[int]:
+        """
+        Solve task.
+
+        :param args: task positional parameters.
+        :param kwargs: task named parameters.
+        :return: result vector.
+        """
+
+        raise NotImplemented()
+
+    @staticmethod
+    @abstractmethod
+    def name() -> str:
+        """
+        Solver name.
+
+        :return: solver name string.
+        """
+
+        raise NotImplemented()
+
+
 class Backend(ABC):
     """
     All backends base.
@@ -28,12 +57,12 @@ class Backend(ABC):
         raise NotImplemented()
 
     @abstractmethod
-    def solve_qubo(self, q_matrix) -> Iterable[int]:
+    def get_solver(self, name: str) -> Solver:
         """
-        Solve QUBO problem.
+        Return solver by name.
 
-        :param q_matrix: QUBO Q matrix as a numpy array.
-        :return: result vector.
+        :param name: solver name.
+        :return: solver object.
         """
 
         raise NotImplemented()
@@ -45,6 +74,17 @@ class Backend(ABC):
         Return backend connection state.
 
         :return: connection state.
+        """
+
+        raise NotImplemented()
+
+    @staticmethod
+    @abstractmethod
+    def name() -> str:
+        """
+        Backend name.
+
+        :return: backend name string.
         """
 
         raise NotImplemented()
