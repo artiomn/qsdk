@@ -66,7 +66,7 @@ class DWaveBackend(Backend):
         :return: backend name string.
         """
 
-        return 'quantum'
+        return 'quantum_dwave'
 
     @property
     def dwave_client(self) -> Client:
