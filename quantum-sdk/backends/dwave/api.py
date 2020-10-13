@@ -2,7 +2,7 @@
 D-Wave backend implementation.
 """
 
-from dvawe.cloud import Client
+from dwave.cloud import Client
 from ..backend import Backend, Solver
 from .solvers import QuboSolver
 
@@ -65,7 +65,7 @@ class DWaveBackend(Backend):
         :return: backend name string.
         """
 
-        return 'dwave'
+        return 'quantum'
 
     @property
     def dwave_client(self) -> Client:
@@ -75,4 +75,3 @@ class DWaveBackend(Backend):
         """
 
         return self._client
-

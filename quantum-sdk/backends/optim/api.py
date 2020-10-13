@@ -1,18 +1,17 @@
 """
-D-Wave backend implementation.
+Local optimizer backend implementation.
 """
 
-from dvawe.cloud import Client
 from ..backend import Backend, Solver
 from .solvers import QuboSolver
 
 
-__all__ = ['DWaveBackend']
+__all__ = ['LocalBackend']
 
 
-class DWaveBackend(Backend):
+class LocalBackend(Backend):
     def __init__(self, backend_address, *args, **kwargs):
-        super(DWaveBackend, self).__init__()
+        super(LocalBackend, self).__init__()
         self._backend_address = backend_address
         self._solvers = {
             solver_class.name(): solver_class for solver_class in [QuboSolver]
@@ -65,7 +64,7 @@ class DWaveBackend(Backend):
         :return: backend name string.
         """
 
-        return 'dwave'
+        return 'local_optimizer'
 
     @property
     def dwave_client(self) -> Client:
