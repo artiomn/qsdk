@@ -43,7 +43,7 @@ quantum-sdk:
 
 ### Диаграмма классов
 
-```
+```plantuml
 @startuml ClassDiagram
 left to right direction
 
