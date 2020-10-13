@@ -6,6 +6,10 @@ from abc import ABC, abstractmethod
 from typing import Iterable
 
 
+def get_backend_by_name(name: str) -> 'Backend.__class__':
+    pass
+
+
 class Solver(ABC):
     """
     Solver base class.
