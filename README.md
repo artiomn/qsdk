@@ -3,6 +3,11 @@
 
 ## Требования
 
+### Предложить метод трансляции входных задач в базис QUBO
+
+[Примеры от D-Wave](https://docs.dwavesys.com/docs/latest/c_handbook_1.html).
+
+
 ### Предоставить возможность решения квадратичной оптимизационной задачи
 
 - В базисе [QUBO](https://en.wikipedia.org/wiki/Quadratic_unconstrained_binary_optimization): `argmin_s(s^T * Q * s)`. `s_i = {0, 1}`
