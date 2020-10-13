@@ -1,6 +1,7 @@
 """
 QUBO Solver.
 """
+
 import numpy as np
 
 from backends import Backend, Solver, get_backend_by_name

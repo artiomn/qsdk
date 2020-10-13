@@ -2,6 +2,7 @@
 Local optimizer backend implementation.
 """
 
+# Some arbitrary local optimizer.
 from optimizer import Optimizer
 
 from ..backend import Backend, Solver

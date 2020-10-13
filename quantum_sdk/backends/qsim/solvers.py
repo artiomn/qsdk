@@ -18,7 +18,7 @@ class QuboSolver(Solver):
         super(QuboSolver, self).__init__()
 
         self._backend = backend
-        self._solver = backend.dwave_client.get_solver()
+        self._solver = backend.get_solver('qubo')
 
     def solve(self, q_matrix, *args, **kwargs) -> Iterable[int]:
         """

@@ -2,29 +2,31 @@
 Local optimizer backend implementation.
 """
 
+# Russian Quantum Center
+import RQCSimClient
+
 from ..backend import Backend, Solver
 from .solvers import QuboSolver
 
 
-__all__ = ['LocalBackend']
+__all__ = ['QuantumSimulationBackend']
 
 
-class LocalBackend(Backend):
+class QuantumSimulationBackend(Backend):
     def __init__(self, backend_address, *args, **kwargs):
-        super(LocalBackend, self).__init__()
+        super(QuantumSimulationBackend, self).__init__()
         self._backend_address = backend_address
         self._solvers = {
             solver_class.name(): solver_class for solver_class in [QuboSolver]
         }
-        self._client = Client(endpoint=backend_address, *args, **kwargs)
+        self._client = RQCSimClient(endpoint=backend_address, *args, **kwargs)
 
     def connect(self):
         """
         Connect to the backend.
-        :return: session.
+        :return: None.
         """
-        self._client.session = self._client.create_session()
-        return self._client.session
+        self._client.connect()
 
     def disconnect(self):
         """
@@ -32,9 +34,7 @@ class LocalBackend(Backend):
         :return: None.
         """
 
-        if self._client.session is not None:
-            self._client.close()
-            self._client.session = None
+        self._client.disconnect()
 
     def get_solver(self, name: str) -> Solver:
         """
@@ -54,7 +54,7 @@ class LocalBackend(Backend):
         :return: connection state.
         """
 
-        return self._client.session is not None
+        return self._client.is_connected()
 
     @staticmethod
     def name() -> str:
@@ -64,14 +64,4 @@ class LocalBackend(Backend):
         :return: backend name string.
         """
 
-        return 'local_optimizer'
-
-    @property
-    def dwave_client(self) -> Client:
-        """
-        Return Cloud client.
-        :return: Client object.
-        """
-
-        return self._client
-
+        return 'rqc_simulator'

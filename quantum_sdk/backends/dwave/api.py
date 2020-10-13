@@ -2,6 +2,7 @@
 D-Wave backend implementation.
 """
 
+import os
 from dwave.cloud import Client
 from ..backend import Backend, Solver
 from .solvers import QuboSolver
@@ -11,7 +12,7 @@ __all__ = ['DWaveBackend']
 
 
 class DWaveBackend(Backend):
-    def __init__(self, backend_address, *args, **kwargs):
+    def __init__(self, backend_address=os.environ.get('DWAVE_SERVER_ADDRESS'), *args, **kwargs):
         super(DWaveBackend, self).__init__()
         self._backend_address = backend_address
         self._solvers = {
