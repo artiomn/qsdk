@@ -41,6 +41,51 @@ quantum-sdk:
 - examples - каталог с примерами.
 
 
+### Диаграмма классов
+
+```
+@startuml ClassDiagram
+left to right direction
+
+package backends {
+  class Backend {
+  }
+
+  class Solver {
+  }
+
+
+  package dwave {
+    class DWaveBackend {
+    }
+    class dwave.QuboSolver {
+    }
+  }
+
+
+  package optim {
+    class LocalBackend {
+    }
+    class optim.QuboSolver {
+    }
+  }
+
+  package qsim {
+    class QuantumSimulationBackend {
+    }
+    class qsim.QuboSolver {
+    }
+
+  }
+
+
+
+}
+
+@enduml
+```
+
+
 ## Пример использования
 
 ```python
