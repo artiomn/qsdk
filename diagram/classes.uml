@@ -1,0 +1,96 @@
+@startuml
+'left to right direction
+skinparam linetype ortho
+
+package backends {
+  class Backend {
+    {abstract} +connect()
+    {abstract} +disconnect()
+    {abstract} +get_solver(name)
+    {abstract} {static} +name()
+    {abstract} +connected
+  }
+
+  class Solver {
+    {abstract} +solve()
+    {abstract} {static} +name()
+  }
+
+
+  package dwave {
+    class DWaveBackend {
+      +connect()
+      +disconnect()
+      +get_solver(name)
+      {static} +name()
+      +connected
+    }
+    class dwave.QuboSolver {
+      +solve()
+      {static} +name()
+    }
+  }
+
+
+  package optim {
+    class LocalBackend {
+      +connect()
+      +disconnect()
+      +get_solver(name)
+      {static} +name()
+      +connected
+    }
+    class optim.QuboSolver {
+      +solve()
+      {static} +name()
+    }
+  }
+
+  package qsim {
+    class QuantumSimulationBackend {
+      +connect()
+      +disconnect()
+      +get_solver(name)
+      {static} +name()
+      +connected
+    }
+    class qsim.QuboSolver {
+      +solve()
+      {static} +name()
+    }
+
+  }
+
+  Backend <|---- DWaveBackend
+  Backend <|---- LocalBackend
+  Backend <|---- QuantumSimulationBackend
+  
+  Solver <|---- dwave.QuboSolver
+  Solver <|---- optim.QuboSolver
+  Solver <|---- qsim.QuboSolver
+
+  DWaveBackend o-- dwave.QuboSolver
+  LocalBackend o-- optim.QuboSolver
+  QuantumSimulationBackend o-- qsim.QuboSolver
+
+}
+
+
+package basis {
+
+  class convert {
+    +from_ising_to_qubo(h, j)
+    +from_qubo_to_ising(q)
+  }
+}
+
+
+package solvers {
+  class QSolver {
+    +solve_qubo(q, *args, **kwargs)
+  }
+}
+
+
+QSolver o---- backends
+@enduml
