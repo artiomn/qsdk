@@ -36,13 +36,13 @@ quantum-sdk:
 - examples - каталог с примерами.
 
 
+## Пример использования
+
 ```python
 from quantum-sdk import QSolver
 
 qsolver = QSolver(backend=”quantum”)
-
 Q = np.random.rand(5, 5)
-
 s = qsolver.solve_qubo(Q)
 
 >> s = [1,0,0,1,1]
