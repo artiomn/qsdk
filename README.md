@@ -39,7 +39,7 @@ quantum-sdk:
 ## Пример использования
 
 ```python
-from quantum-sdk import QSolver
+from quantum_sdk import QSolver
 
 qsolver = QSolver(backend=”quantum”)
 Q = np.random.rand(5, 5)
