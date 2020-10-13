@@ -20,7 +20,7 @@ class QSolver:
         """
         Solve QUBO task.
 
-        :param q: - QUBO matrix.
+        :param q: QUBO matrix.
         :return: result vector.
         """
 
