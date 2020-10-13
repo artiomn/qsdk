@@ -1,17 +1,18 @@
 """
-Backend base class and generic routines.
+D-Wave backend implementation.
 """
-
-from abc import ABC, abstractmethod
 from typing import Iterable
 
+from ..backend import Backend
 
-class Backend(ABC):
-    """
-    All backends base.
-    """
 
-    @abstractmethod
+__all__ = ['DWaveBackend']
+
+
+class DWaveBackend(Backend):
+    def __init__(self, backend_address):
+        super(DWaveBackend, self).__init__()
+
     def connect(self):
         """
         Connect to the backend.
@@ -19,7 +20,6 @@ class Backend(ABC):
         """
         raise NotImplemented()
 
-    @abstractmethod
     def disconnect(self):
         """
         Disconnect from the backend.
@@ -27,7 +27,6 @@ class Backend(ABC):
         """
         raise NotImplemented()
 
-    @abstractmethod
     def solve_qubo(self, q_matrix) -> Iterable[int]:
         """
         Solve QUBO problem.
@@ -39,7 +38,6 @@ class Backend(ABC):
         raise NotImplemented()
 
     @property
-    @abstractmethod
     def connected(self) -> bool:
         """
         Return backend connection state.
