@@ -8,7 +8,7 @@ from typing import Iterable
 
 
 def get_backend_by_name(name: str) -> 'Backend.__class__':
-    all_exports = getattr(import_module(f'.{name}'), '__all__')
+    all_exports = getattr(import_module(f'.{name}.api'), '__all__')
     assert all_exports is not None
     assert len(all_exports) > 0
 
