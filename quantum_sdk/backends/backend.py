@@ -3,11 +3,16 @@ Backend base class and generic routines.
 """
 
 from abc import ABC, abstractmethod
+from importlib import import_module
 from typing import Iterable
 
 
 def get_backend_by_name(name: str) -> 'Backend.__class__':
-    pass
+    all_exports = getattr(import_module(f'.{name}'), '__all__')
+    assert all_exports is not None
+    assert len(all_exports) > 0
+
+    return all_exports[0]
 
 
 class Solver(ABC):
